@@ -68,3 +68,17 @@ func (c *Client) ListOrders(p ...ListOrdersParams) *Cursor {
 	return NewCursor(c, "GET", fmt.Sprintf("/orders"),
 		&paginationParams)
 }
+
+func (c *Client) CancelOrders() ([]string, error) {
+	var orders []string
+	url := fmt.Sprintf("/orders")
+	_, err := c.Request("DELETE", url, nil, &orders)
+	return orders, err
+}
+
+func (c *Client) CancelProductOrders(product string) ([]string, error) {
+	var orders []string
+	url := fmt.Sprintf("/orders?product=%s", product)
+	_, err := c.Request("DELETE", url, nil, orders)
+	return orders, err
+}
